@@ -1,6 +1,25 @@
-# Whisper Transcription Server
+# 🎤 Whisper Transcription Server
 
-Modern web-based audio transcription server using OpenAI's Whisper models with automatic startup and real-time monitoring.
+Modern web-based audio transcription server using OpenAI's Whisper models with automatic startup, real-time monitoring, and **automated GitHub deployment system**.
+
+[![GitHub](https://img.shields.io/badge/GitHub-Chidwi--commits-blue?logo=github)](https://github.com/Chidwi-commits/host-client-for-whisper-ai)
+[![Python](https://img.shields.io/badge/Python-3.8+-green?logo=python)](https://python.org)
+[![Whisper](https://img.shields.io/badge/OpenAI-Whisper-orange?logo=openai)](https://github.com/openai/whisper)
+
+## 🚀 Quick Deploy from GitHub
+
+**New!** One-command deployment and auto-update system:
+
+```bash
+# Deploy on new machine
+curl -sSL https://raw.githubusercontent.com/Chidwi-commits/host-client-for-whisper-ai/main/deploy_from_github.sh | bash
+
+# Check for updates
+./check_updates.sh
+
+# Update server
+./update_from_github.sh
+```
 
 ## ✨ Features
 
@@ -29,6 +48,11 @@ whisper_project/
 ├── whisper-server.service      # Systemd service configuration
 ├── setup_autostart.sh         # Automated installation script
 ├── test_server_features.sh    # Testing utilities
+├── deploy_from_github.sh       # 🆕 Initial deployment from GitHub
+├── update_from_github.sh       # 🆕 Auto-update script
+├── check_updates.sh            # 🆕 Update checker script
+├── requirements.txt            # 🆕 Python dependencies
+├── .gitignore                  # 🆕 Git ignore rules
 ├── README.md                  # Project overview and quick start  
 ├── SETUP_GUIDE.md             # Installation and configuration guide
 ├── USER_GUIDE.md              # Web interface and API documentation
