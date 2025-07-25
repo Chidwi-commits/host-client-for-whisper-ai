@@ -1,0 +1,27 @@
+[Unit]
+Description=Whisper Audio Transcription Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=chidwi
+Group=chidwi
+WorkingDirectory=/home/chidwi/whisper_project
+ExecStart=/bin/bash /home/chidwi/whisper_project/start_whisper_server.sh
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=whisper-server
+
+# Environment variables
+Environment=PATH=/home/chidwi/whisper_project/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=VIRTUAL_ENV=/home/chidwi/whisper_project/venv
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target 

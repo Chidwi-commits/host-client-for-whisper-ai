@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisper Transcription Server</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎤 Whisper Transcription Server</h1>
+            <p>Audio transcription with real-time monitoring</p>
+        </header>
+
+        <!-- Server Status Section -->
+        <section class="status-section">
+            <h2>📊 Server Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <label>Status:</label>
+                    <span id="server-status" class="status-value">Checking...</span>
+                </div>
+                <div class="status-item">
+                    <label>Memory:</label>
+                    <span id="memory-usage" class="status-value">- MB</span>
+                </div>
+                <div class="status-item">
+                    <label>Model:</label>
+                    <span id="current-model" class="status-value">large-v3</span>
+                </div>
+                <div class="status-item">
+                    <label>Processing Time:</label>
+                    <span id="processing-time" class="status-value">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Buttons -->
+        <section class="controls-section">
+            <h2>🎛️ Controls</h2>
+            <div class="control-buttons">
+                <button id="check-status-btn" class="btn btn-info">
+                    🔍 Check Status
+                </button>
+                <button id="change-model-btn" class="btn btn-primary">
+                    🤖 Change Model
+                </button>
+                <button id="reset-server-btn" class="btn btn-danger">
+                    🔄 Reset Server
+                </button>
+                <button id="health-check-btn" class="btn btn-success">
+                    🏥 Health Check
+                </button>
+            </div>
+        </section>
+
+        <!-- File Upload Section -->
+        <section class="upload-section">
+            <h2>🎵 Audio Transcription</h2>
+            <div class="upload-container">
+                <div class="file-input-container">
+                    <input type="file" id="audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg" class="file-input">
+                    <label for="audio-file" class="file-label">
+                        📄 Select Audio File for Transcription
+                    </label>
+                </div>
+                <button id="transcribe-btn" class="btn btn-primary" disabled>
+                    🚀 Start Transcription
+                </button>
+            </div>
+            
+            <!-- Progress Section -->
+            <div class="progress-container">
+                <label for="progress-bar">Progress:</label>
+                <div class="progress-wrapper">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span id="progress-text">Ready to process</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Log -->
+        <section class="log-section">
+            <h2>📝 Activity Log</h2>
+            <div class="log-container">
+                <div id="activity-log" class="log-content"></div>
+                <button id="clear-log-btn" class="btn btn-secondary">Clear Log</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Whisper Transcription Server | <a href="/api/docs" target="_blank">API Docs</a></p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="reset-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirm Server Reset</h3>
+            <p>Are you sure you want to reset the server state?<br>This will cancel any current processing.</p>
+            <div class="modal-buttons">
+                <button id="confirm-reset" class="btn btn-danger">Yes, Reset</button>
+                <button id="cancel-reset" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="model-modal" class="modal">
+        <div class="modal-content model-modal-content">
+            <h3>🤖 Select Whisper Model</h3>
+            <p>Choose the model based on your speed and quality requirements:</p>
+            
+            <div class="model-grid">
+                <div class="model-card" data-model="turbo">
+                    <div class="model-name">turbo</div>
+                    <div class="model-specs">809M • ~6GB • ~8x speed</div>
+                    <div class="model-desc">Balanced speed and quality</div>
+                </div>
+                
+                <div class="model-card selected" data-model="large-v3">
+                    <div class="model-name">large-v3</div>
+                    <div class="model-specs">1550M • ~10GB • Latest</div>
+                    <div class="model-desc">Best quality, newest version</div>
+                </div>
+                
+                <div class="model-card" data-model="large">
+                    <div class="model-name">large</div>
+                    <div class="model-specs">1550M • ~10GB • 1x speed</div>
+                    <div class="model-desc">Best quality, previous version</div>
+                </div>
+                
+                <div class="model-card" data-model="medium">
+                    <div class="model-name">medium</div>
+                    <div class="model-specs">769M • ~5GB • ~2x speed</div>
+                    <div class="model-desc">Good quality, faster processing</div>
+                </div>
+                
+                <div class="model-card" data-model="small">
+                    <div class="model-name">small</div>
+                    <div class="model-specs">244M • ~2GB • ~4x speed</div>
+                    <div class="model-desc">Decent quality, fast processing</div>
+                </div>
+                
+                <div class="model-card" data-model="base">
+                    <div class="model-name">base</div>
+                    <div class="model-specs">74M • ~1GB • ~7x speed</div>
+                    <div class="model-desc">Basic quality, very fast</div>
+                </div>
+                
+                <div class="model-card" data-model="tiny">
+                    <div class="model-name">tiny</div>
+                    <div class="model-specs">39M • ~1GB • ~10x speed</div>
+                    <div class="model-desc">Minimal quality, fastest</div>
+                </div>
+                
+                <div class="model-card" data-model="medium.en">
+                    <div class="model-name">medium.en</div>
+                    <div class="model-specs">769M • English-only</div>
+                    <div class="model-desc">Faster for English content</div>
+                </div>
+                
+                <div class="model-card" data-model="small.en">
+                    <div class="model-name">small.en</div>
+                    <div class="model-specs">244M • English-only</div>
+                    <div class="model-desc">Fast English processing</div>
+                </div>
+                
+                <div class="model-card" data-model="base.en">
+                    <div class="model-name">base.en</div>
+                    <div class="model-specs">74M • English-only</div>
+                    <div class="model-desc">Quick English transcription</div>
+                </div>
+                
+                <div class="model-card" data-model="tiny.en">
+                    <div class="model-name">tiny.en</div>
+                    <div class="model-specs">39M • English-only</div>
+                    <div class="model-desc">Fastest English processing</div>
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button id="confirm-model" class="btn btn-primary">Select Model</button>
+                <button id="cancel-model" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 
