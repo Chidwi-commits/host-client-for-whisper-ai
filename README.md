@@ -7,24 +7,36 @@ Modern web-based audio transcription server using OpenAI's Whisper models with a
 [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-orange?logo=openai)](https://github.com/openai/whisper)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 🚀 Quick Deploy from GitHub
+## 🚀 Simple Installation
 
-**New!** One-command deployment and auto-update system:
+**Download and run - that's it!**
 
+### Method 1: Download Repository (Recommended)
 ```bash
-# Deploy on any machine - works out of the box!
-curl -sSL https://raw.githubusercontent.com/Chidwi-commits/host-client-for-whisper-ai/main/deploy_from_github.sh | bash
+# Option A: Download with git
+git clone https://github.com/Chidwi-commits/host-client-for-whisper-ai.git
+cd host-client-for-whisper-ai
 
-# Check for updates
-./check_updates.sh
+# Option B: Download ZIP file and extract it
+# Then cd into the extracted folder
 
-# Update server
-./update_from_github.sh
+# Run the installer
+./install.sh
 ```
 
-> **🎯 Ready to use immediately!** No configuration needed for regular usage.  
-> **📖 Need help deciding?** See [USAGE_SCENARIOS.md](USAGE_SCENARIOS.md) to understand different usage options.  
-> **🔧 Want to modify code?** Developers see [CONFIGURATION.md](CONFIGURATION.md).
+### Method 2: One-command from Internet
+```bash
+# Deploy directly from GitHub (no local download needed)
+curl -sSL https://raw.githubusercontent.com/Chidwi-commits/host-client-for-whisper-ai/main/deploy_from_github.sh | bash
+```
+
+**After installation:**
+- 🌐 **Web interface:** `http://localhost:5000`
+- 🔄 **Check updates:** `./check_updates.sh`
+- ⬆️ **Apply updates:** `./update_from_github.sh`
+
+> **🎯 Zero configuration needed!** Just download and run the installer.  
+> **📖 Need help?** See [USAGE_SCENARIOS.md](USAGE_SCENARIOS.md) for different usage options.
 
 ## ✨ Features
 
@@ -53,7 +65,8 @@ whisper_project/
 ├── whisper-server.service      # Systemd service configuration
 ├── setup_autostart.sh         # Automated installation script
 ├── test_server_features.sh    # Testing utilities
-├── deploy_from_github.sh       # 🆕 Initial deployment from GitHub
+├── install.sh                  # 🆕 Simple local installer (recommended)
+├── deploy_from_github.sh       # 🆕 Remote deployment from GitHub
 ├── update_from_github.sh       # 🆕 Auto-update script
 ├── check_updates.sh            # 🆕 Update checker script
 ├── requirements.txt            # 🆕 Python dependencies
@@ -68,16 +81,17 @@ whisper_project/
 
 ## 🚀 Quick Start
 
-### 1. Installation
+### 1. Download and Install
 ```bash
-# Install dependencies
-pip install flask whisper psutil
+# Download the repository
+git clone https://github.com/Chidwi-commits/host-client-for-whisper-ai.git
+cd host-client-for-whisper-ai
 
-# Run server
-python server.py
+# Run installer (does everything automatically)
+./install.sh
 ```
 
-### 2. Access Web Interface
+### 2. Use Web Interface
 Open your browser: `http://localhost:5000`
 
 ### 3. Start Transcribing
@@ -86,11 +100,7 @@ Open your browser: `http://localhost:5000`
 3. Click "Start Transcription"
 4. Download result when complete
 
-### 4. Setup Auto-startup (Optional)
-```bash
-chmod +x setup_autostart.sh
-./setup_autostart.sh
-```
+**That's it!** The installer handles all dependencies, services, and configuration.
 
 ## 🌐 Web Dashboard
 

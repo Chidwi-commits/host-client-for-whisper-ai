@@ -13,10 +13,15 @@ This document explains different ways to use the Whisper Transcription Server de
 
 **Instructions:**
 ```bash
-# One-time setup - works immediately
+# Method 1: Local installation (Recommended)
+git clone https://github.com/Chidwi-commits/host-client-for-whisper-ai.git
+cd host-client-for-whisper-ai
+./install.sh
+
+# Method 2: One-command remote installation  
 curl -sSL https://raw.githubusercontent.com/Chidwi-commits/host-client-for-whisper-ai/main/deploy_from_github.sh | bash
 
-# Regular usage
+# After installation
 http://localhost:5000  # Open in browser
 
 # Check for updates anytime
