@@ -2,6 +2,7 @@
 
 Modern web-based audio transcription server using OpenAI's Whisper models with automatic startup, real-time monitoring, and **automated GitHub deployment system**.
 
+[![GitHub](https://img.shields.io/badge/GitHub-Chidwi--commits-blue?logo=github)](https://github.com/Chidwi-commits/host-client-for-whisper-ai)
 [![Python](https://img.shields.io/badge/Python-3.8+-green?logo=python)](https://python.org)
 [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-orange?logo=openai)](https://github.com/openai/whisper)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -11,8 +12,8 @@ Modern web-based audio transcription server using OpenAI's Whisper models with a
 **New!** One-command deployment and auto-update system:
 
 ```bash
-# Deploy on new machine (replace with your repository URL)
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/deploy_from_github.sh | bash
+# Deploy on any machine - works out of the box!
+curl -sSL https://raw.githubusercontent.com/Chidwi-commits/host-client-for-whisper-ai/main/deploy_from_github.sh | bash
 
 # Check for updates
 ./check_updates.sh
@@ -21,7 +22,9 @@ curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/deploy_
 ./update_from_github.sh
 ```
 
-> **📝 Configuration Required:** Before using, update repository URLs in the scripts. See [CONFIGURATION.md](CONFIGURATION.md) for detailed setup instructions.
+> **🎯 Ready to use immediately!** No configuration needed for regular usage.  
+> **📖 Need help deciding?** See [USAGE_SCENARIOS.md](USAGE_SCENARIOS.md) to understand different usage options.  
+> **🔧 Want to modify code?** Developers see [CONFIGURATION.md](CONFIGURATION.md).
 
 ## ✨ Features
 
@@ -58,7 +61,8 @@ whisper_project/
 ├── README.md                  # Project overview and quick start  
 ├── SETUP_GUIDE.md             # Installation and configuration guide
 ├── USER_GUIDE.md              # Web interface and API documentation
-├── CONFIGURATION.md           # 🆕 Repository configuration guide
+├── CONFIGURATION.md           # 🆕 Developer configuration guide
+├── USAGE_SCENARIOS.md         # 🆕 Different usage scenarios explained
 └── venv/                      # Python virtual environment
 ```
 

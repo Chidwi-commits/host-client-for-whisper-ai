@@ -1,12 +1,23 @@
 # 🔧 Configuration Guide
 
+**⚠️ This guide is ONLY for developers who want to modify the code and maintain their own fork.**
+
+**For regular usage, no configuration is needed** - just use the deployment command from README.md
+
+---
+
 This guide explains how to configure the Whisper Server for your own GitHub repository and environment.
 
 ## 📋 Prerequisites
 
-1. **Fork or clone this repository** to your GitHub account
+**Do you really need this?** 
+- ✅ **Just want to use Whisper server?** → Use the main deployment command, skip this guide
+- ✅ **Want to modify the code?** → Continue reading
+
+For developers only:
+1. **Fork this repository** to your GitHub account
 2. **Update repository references** in the deployment scripts
-3. **Configure for your username/environment**
+3. **Configure for your modifications**
 
 ## 🔗 Repository Configuration
 
@@ -37,6 +48,11 @@ REPO_URL="${WHISPER_REPO_URL:-https://github.com/YOUR_USERNAME/YOUR_REPO.git}"
 **Line 14: Update deployment command:**
 ```bash
 curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/deploy_from_github.sh | bash
+```
+
+**Line 4: Update badge (optional):**
+```markdown
+[![GitHub](https://img.shields.io/badge/GitHub-YOUR_USERNAME-blue?logo=github)](https://github.com/YOUR_USERNAME/YOUR_REPO)
 ```
 
 ## 🌍 Environment Variables (Optional)
