@@ -6,10 +6,10 @@
 
 set -e  # Exit on any error
 
-# Configuration
-REPO_URL="https://github.com/Chidwi-commits/host-client-for-whisper-ai.git"
-PROJECT_DIR="/home/chidwi/whisper_project"
-BACKUP_DIR="/home/chidwi/whisper_backup_$(date +%Y%m%d_%H%M%S)"
+# Configuration - UPDATE THESE VALUES FOR YOUR REPOSITORY  
+REPO_URL="${WHISPER_REPO_URL:-https://github.com/YOUR_USERNAME/YOUR_REPO.git}"
+PROJECT_DIR="/home/$(whoami)/whisper_project"
+BACKUP_DIR="/home/$(whoami)/whisper_backup_$(date +%Y%m%d_%H%M%S)"
 SERVICE_NAME="whisper-server"
 
 # Colors for output
@@ -118,7 +118,7 @@ fi
 # Step 7: Set proper permissions
 log_message "🔐 Setting file permissions..."
 chmod +x "$PROJECT_DIR"/*.sh
-chown -R chidwi:chidwi "$PROJECT_DIR"
+chown -R $(whoami):$(whoami) "$PROJECT_DIR"
 log_message "Permissions set"
 
 # Step 8: Update systemd service if needed
@@ -154,7 +154,7 @@ fi
 
 # Step 10: Cleanup old backups (keep last 5)
 log_message "🧹 Cleaning up old backups..."
-ls -dt /home/chidwi/whisper_backup_* 2>/dev/null | tail -n +6 | xargs rm -rf 2>/dev/null || true
+ls -dt /home/$(whoami)/whisper_backup_* 2>/dev/null | tail -n +6 | xargs rm -rf 2>/dev/null || true
 
 echo
 echo -e "${GREEN}✅ Update completed successfully!${NC}"

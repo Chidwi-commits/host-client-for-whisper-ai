@@ -6,9 +6,9 @@
 
 set -e  # Exit on any error
 
-# Configuration
-REPO_URL="https://github.com/Chidwi-commits/host-client-for-whisper-ai.git"
-PROJECT_DIR="/home/chidwi/whisper_project"
+# Configuration - UPDATE THESE VALUES FOR YOUR REPOSITORY
+REPO_URL="${WHISPER_REPO_URL:-https://github.com/YOUR_USERNAME/YOUR_REPO.git}"
+PROJECT_DIR="/home/$(whoami)/whisper_project"
 
 # Colors for output
 RED='\033[0;31m'

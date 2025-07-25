@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Whisper Server Startup Script
-# This script activates the virtual environment and starts the Whisper transcription server
+# Activates virtual environment and starts the Flask server
 
-# Set the working directory to the project directory
-cd /home/chidwi/whisper_project
+# Change to the project directory
+cd /home/$(whoami)/whisper_project
 
 # Activate the virtual environment
 source venv/bin/activate

@@ -40,8 +40,10 @@ Thumbs.db
 *.tmp
 *.temp
 
-# System service files (will be handled by install script)
+# System service files (generated dynamically)
+whisper-server.service
 /etc/systemd/system/whisper-server.service
+/tmp/whisper-server.service
 
 # UUID named files (temporary uploads)
 *-*-*-*-*.wav

@@ -1,17 +1,48 @@
 #!/bin/bash
 
-# Setup script for Whisper Server Autostart
-# This script installs and configures the systemd service for automatic startup
+# Whisper Server Auto-startup Setup Script
+# This script installs the Whisper server as a systemd service for automatic startup
 
-echo "=== Setting up Whisper Server Autostart ==="
+set -e  # Exit on any error
 
 # Make the startup script executable
-echo "Making startup script executable..."
-chmod +x /home/chidwi/whisper_project/start_whisper_server.sh
+chmod +x /home/$(whoami)/whisper_project/start_whisper_server.sh
 
-# Copy the service file to systemd directory
-echo "Installing systemd service..."
-sudo cp /home/chidwi/whisper_project/whisper-server.service /etc/systemd/system/
+echo "Setting up Whisper server for automatic startup..."
+
+# Generate systemd service file with current user
+cat > /tmp/whisper-server.service << EOF
+[Unit]
+Description=Whisper Audio Transcription Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=$(whoami)
+Group=$(whoami)
+WorkingDirectory=/home/$(whoami)/whisper_project
+ExecStart=/bin/bash /home/$(whoami)/whisper_project/start_whisper_server.sh
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=whisper-server
+
+# Environment variables
+Environment=PATH=/home/$(whoami)/whisper_project/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=VIRTUAL_ENV=/home/$(whoami)/whisper_project/venv
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Copy the service file to systemd
+sudo cp /tmp/whisper-server.service /etc/systemd/system/
 
 # Reload systemd to recognize the new service
 echo "Reloading systemd..."

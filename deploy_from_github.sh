@@ -6,9 +6,9 @@
 
 set -e  # Exit on any error
 
-# Configuration
-REPO_URL="https://github.com/Chidwi-commits/host-client-for-whisper-ai.git"
-PROJECT_DIR="/home/chidwi/whisper_project"
+# Configuration - UPDATE THESE VALUES FOR YOUR REPOSITORY
+REPO_URL="${WHISPER_REPO_URL:-https://github.com/YOUR_USERNAME/YOUR_REPO.git}"
+PROJECT_DIR="/home/$(whoami)/whisper_project"
 SERVICE_NAME="whisper-server"
 
 # Colors for output
@@ -72,7 +72,7 @@ deactivate
 # Step 5: Set proper permissions
 log_message "🔐 Setting file permissions..."
 chmod +x "$PROJECT_DIR"/*.sh
-chown -R chidwi:chidwi "$PROJECT_DIR"
+chown -R $(whoami):$(whoami) "$PROJECT_DIR"
 
 # Step 6: Install systemd service
 log_message "🔧 Installing systemd service..."
