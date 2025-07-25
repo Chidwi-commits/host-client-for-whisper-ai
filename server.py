@@ -280,6 +280,123 @@ def health_check():
         'memory_usage_mb': get_memory_usage()
     })
 
+@app.route('/api/docs', methods=['GET'])
+def api_docs():
+    """API Documentation endpoint"""
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Whisper Server API Documentation</title>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; }
+            .endpoint { background: #f8f9fa; border-left: 4px solid #007bff; padding: 15px; margin: 15px 0; border-radius: 5px; }
+            .method { background: #28a745; color: white; padding: 4px 8px; border-radius: 3px; font-weight: bold; margin-right: 10px; }
+            .method.post { background: #007bff; }
+            .code { background: #f1f1f1; border: 1px solid #ddd; border-radius: 4px; padding: 10px; margin: 10px 0; font-family: 'Courier New', monospace; overflow-x: auto; }
+            .example { background: #e8f5e8; border: 1px solid #28a745; border-radius: 4px; padding: 10px; margin: 10px 0; }
+            .back-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+            .back-link:hover { background: #0056b3; color: white; text-decoration: none; }
+        </style>
+    </head>
+    <body>
+        <h1>🎤 Whisper Server API Documentation</h1>
+        
+        <p>Complete REST API documentation for the Whisper Transcription Server.</p>
+        
+        <h2>Base URL</h2>
+        <div class="code">http://your-server:5000</div>
+        
+        <h2>Available Endpoints</h2>
+        
+        <div class="endpoint">
+            <h3><span class="method">GET</span>/status</h3>
+            <p><strong>Description:</strong> Get current server status and metrics</p>
+            <div class="code">curl -s http://localhost:5000/status</div>
+            <div class="example">
+                <strong>Response:</strong><br>
+                {<br>
+                &nbsp;&nbsp;"status": "Ready",<br>
+                &nbsp;&nbsp;"current_model": "large-v3",<br>
+                &nbsp;&nbsp;"memory_usage_mb": 437.03,<br>
+                &nbsp;&nbsp;"progress": 0,<br>
+                &nbsp;&nbsp;"timestamp": 1753102635.011476<br>
+                }
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method post">POST</span>/transcribe</h3>
+            <p><strong>Description:</strong> Transcribe audio file to text</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>file</code> (required): Audio file (WAV, MP3, M4A, FLAC, OGG)</li>
+                <li><code>model</code> (optional): Whisper model name (tiny, base, small, medium, large, large-v3, turbo)</li>
+            </ul>
+            <div class="code">curl -X POST -F "file=@audio.wav" -F "model=medium" http://localhost:5000/transcribe --output transcription.txt</div>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method post">POST</span>/reset</h3>
+            <p><strong>Description:</strong> Reset server state (unload model, cancel processing)</p>
+            <div class="code">curl -X POST http://localhost:5000/reset</div>
+            <div class="example">
+                <strong>Response:</strong><br>
+                {<br>
+                &nbsp;&nbsp;"success": true,<br>
+                &nbsp;&nbsp;"message": "Server reset completed successfully",<br>
+                &nbsp;&nbsp;"status": "Ready"<br>
+                }
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">GET</span>/health</h3>
+            <p><strong>Description:</strong> Simple health check</p>
+            <div class="code">curl -s http://localhost:5000/health</div>
+            <div class="example">
+                <strong>Response:</strong><br>
+                {<br>
+                &nbsp;&nbsp;"status": "healthy",<br>
+                &nbsp;&nbsp;"server_status": "Ready",<br>
+                &nbsp;&nbsp;"timestamp": 1753102635.011476<br>
+                }
+            </div>
+        </div>
+        
+        <h2>HTTP Status Codes</h2>
+        <ul>
+            <li><strong>200:</strong> Success</li>
+            <li><strong>400:</strong> Bad request (missing file, invalid format)</li>
+            <li><strong>409:</strong> Processing cancelled</li>
+            <li><strong>429:</strong> Server busy (processing another request)</li>
+            <li><strong>500:</strong> Internal server error</li>
+        </ul>
+        
+        <h2>Supported Audio Formats</h2>
+        <p>WAV, MP3, M4A, FLAC, OGG</p>
+        
+        <h2>Available Models</h2>
+        <ul>
+            <li><strong>tiny:</strong> Fastest, minimal quality (~10x speed)</li>
+            <li><strong>base:</strong> Basic quality, very fast (~7x speed)</li>
+            <li><strong>small:</strong> Decent quality, fast (~4x speed)</li>
+            <li><strong>medium:</strong> Good quality, faster (~2x speed)</li>
+            <li><strong>large:</strong> Best quality, standard speed</li>
+            <li><strong>large-v3:</strong> Latest best quality (default)</li>
+            <li><strong>turbo:</strong> Balanced speed/quality (~8x speed)</li>
+        </ul>
+        
+        <a href="/" class="back-link">← Back to Web Interface</a>
+    </body>
+    </html>
+    """
+    return html_content
+
 if __name__ == '__main__':
     # Initialize server status as Ready (ready to accept requests)
     update_status(STATUS_READY, 0)
@@ -294,6 +411,7 @@ if __name__ == '__main__':
     print("  GET  /status     - Check server status")
     print("  POST /reset      - Reset server state")
     print("  GET  /health     - Health check")
+    print("  GET  /api/docs   - API documentation")
     
     # Run the Flask app on all available IP addresses on port 5000
     app.run(host='0.0.0.0', port=5000)
